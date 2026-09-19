@@ -2,17 +2,18 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Pergunta Importante ❤️</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: #ffe6e9;
             display: flex;
             justify-content: center;
@@ -36,6 +37,7 @@
             color: #d63384;
             font-size: 24px;
             margin-bottom: 30px;
+            line-height: 1.3;
         }
 
         .botoes {
@@ -53,23 +55,25 @@
             border: none;
             border-radius: 25px;
             cursor: pointer;
-            transition: transform 0.2s;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         #btnSim {
             background-color: #28a745;
             color: white;
+            transition: transform 0.2s;
         }
 
-        #btnSim:hover {
-            transform: scale(1.1);
-            background-color: #218838;
+        #btnSim:active {
+            transform: scale(0.95);
         }
 
         #btnNao {
             background-color: #dc3545;
             color: white;
-            position: absolute; /* Permite mover o botão livremente pela tela */
+            position: absolute;
+            touch-action: manipulation;
         }
     </style>
 </head>
@@ -79,52 +83,54 @@
         <h1 id="titulo">Quer sair comigo? ❤️</h1>
         <div class="botoes">
             <button id="btnSim" onclick="proximaPergunta()">Sim</button>
-            <button id="btnNao" onmouseover="desviarBotao()" onclick="desviarBotao()">Não</button>
+            <button id="btnNao">Não</button>
         </div>
     </div>
 
     <script>
-        // Função para fazer o botão "Não" fugir
-        function desviarBotao() {
-            const btnNao = document.getElementById('btnNao');
+        const btnNao = document.getElementById('btnNao');
 
-            // Calcula limites da tela para o botão não sair da visão do usuário
+        // Função para mover o botão para um local aleatório
+        function desviarBotao(e) {
+            if (e) {
+                e.preventDefault(); // Impede o clique real no iPhone
+                e.stopPropagation();
+            }
+
             const larguraTela = window.innerWidth - btnNao.offsetWidth - 20;
             const alturaTela = window.innerHeight - btnNao.offsetHeight - 20;
 
-            // Gera posições aleatórias
             const novaEsquerda = Math.max(10, Math.floor(Math.random() * larguraTela));
             const novoTopo = Math.max(10, Math.floor(Math.random() * alturaTela));
 
-            // Aplica as novas posições ao botão
             btnNao.style.position = 'fixed';
             btnNao.style.left = novaEsquerda + 'px';
             btnNao.style.top = novoTopo + 'px';
         }
 
-        // Função executada ao clicar em "Sim"
-        function proximaPergunta() {
-            const titulo = document.getElementById('titulo');
-            const btnNao = document.getElementById('btnNao');
+        // Eventos para abranger computador e o toque no iPhone
+        btnNao.addEventListener('touchstart', desviarBotao, { passive: false });
+        btnNao.addEventListener('mouseover', desviarBotao);
+        btnNao.addEventListener('click', desviarBotao);
 
-            // Esconde o botão "Não"
+        // Avançar ao clicar em "Sim"
+        function proximaPergunta() {
             btnNao.style.display = 'none';
 
-            // Altera o texto para a próxima pergunta/fase do flerte
+            const titulo = document.getElementById('titulo');
             titulo.innerHTML = 'Sabia que você ia aceitar! 🎉<br><br>Que tal um café ou um jantar neste fim de semana? ☕🍽️';
 
-            // Altera a função do botão "Sim" para a resposta final
             const btnSim = document.getElementById('btnSim');
             btnSim.innerText = 'Combinado! 🔥';
             btnSim.onclick = respostaFinal;
         }
 
-        // Resposta final após a segunda pergunta
+        // Resposta Final
         function respostaFinal() {
             const card = document.getElementById('card');
             card.innerHTML = `
                 <h1 style="color: #d63384;">Perfeito! ❤️</h1>
-                <p style="font-size: 18px; color: #555;">Me avisa no WhatsApp para combinarmos o horário!</p>
+                <p style="font-size: 18px; color: #555; margin-top: 15px;">Me avisa no WhatsApp para combinarmos o horário!</p>
             `;
         }
     </script>
