@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Pergunta Importante ❤️</title>
+    <title>Pergunta Importante para Suzana ❤️</title>
     <style>
         * {
             box-sizing: border-box;
@@ -13,7 +13,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: #ffe6e9;
             display: flex;
             justify-content: center;
@@ -36,20 +36,21 @@
         h1 {
             color: #d63384;
             font-size: 24px;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
             line-height: 1.3;
         }
 
         .botoes {
             display: flex;
             justify-content: center;
-            gap: 20px;
             align-items: center;
-            min-height: 50px;
+            gap: 20px;
+            min-height: 60px;
+            position: relative;
         }
 
         button {
-            padding: 12px 28px;
+            padding: 14px 30px;
             font-size: 18px;
             font-weight: bold;
             border: none;
@@ -72,15 +73,15 @@
         #btnNao {
             background-color: #dc3545;
             color: white;
-            position: absolute;
-            touch-action: manipulation;
+            position: relative; 
+            z-index: 10;
         }
     </style>
 </head>
 <body>
 
     <div class="container" id="card">
-        <h1 id="titulo">Quer sair comigo? ❤️</h1>
+        <h1 id="titulo">Suzana, quer sair comigo? ❤️</h1>
         <div class="botoes">
             <button id="btnSim" onclick="proximaPergunta()">Sim</button>
             <button id="btnNao">Não</button>
@@ -90,46 +91,50 @@
     <script>
         const btnNao = document.getElementById('btnNao');
 
-        // Função para mover o botão para um local aleatório
-        function desviarBotao(e) {
+        function fugirBotao(e) {
             if (e) {
-                e.preventDefault(); // Impede o clique real no iPhone
+                e.preventDefault();
                 e.stopPropagation();
             }
 
-            const larguraTela = window.innerWidth - btnNao.offsetWidth - 20;
-            const alturaTela = window.innerHeight - btnNao.offsetHeight - 20;
+            const larguraMax = window.innerWidth - btnNao.offsetWidth - 30;
+            const alturaMax = window.innerHeight - btnNao.offsetHeight - 30;
 
-            const novaEsquerda = Math.max(10, Math.floor(Math.random() * larguraTela));
-            const novoTopo = Math.max(10, Math.floor(Math.random() * alturaTela));
+            const novaEsquerda = Math.max(20, Math.floor(Math.random() * larguraMax));
+            const novoTopo = Math.max(20, Math.floor(Math.random() * alturaMax));
 
             btnNao.style.position = 'fixed';
             btnNao.style.left = novaEsquerda + 'px';
             btnNao.style.top = novoTopo + 'px';
+
+            return false;
         }
 
-        // Eventos para abranger computador e o toque no iPhone
-        btnNao.addEventListener('touchstart', desviarBotao, { passive: false });
-        btnNao.addEventListener('mouseover', desviarBotao);
-        btnNao.addEventListener('click', desviarBotao);
+        btnNao.addEventListener('touchstart', fugirBotao, { passive: false });
+        btnNao.addEventListener('touchend', fugirBotao, { passive: false });
+        btnNao.addEventListener('mousedown', fugirBotao);
+        btnNao.addEventListener('mouseover', fugirBotao);
+        btnNao.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            fugirBotao(e);
+        });
 
-        // Avançar ao clicar em "Sim"
         function proximaPergunta() {
             btnNao.style.display = 'none';
 
             const titulo = document.getElementById('titulo');
-            titulo.innerHTML = 'Sabia que você ia aceitar! 🎉<br><br>Que tal um café ou um jantar neste fim de semana? ☕🍽️';
+            titulo.innerHTML = 'Sabia que você ia aceitar, Suzana! 🎉<br><br>Que tal um café ou um jantar neste fim de semana? ☕🍽️';
 
             const btnSim = document.getElementById('btnSim');
             btnSim.innerText = 'Combinado! 🔥';
             btnSim.onclick = respostaFinal;
         }
 
-        // Resposta Final
         function respostaFinal() {
             const card = document.getElementById('card');
             card.innerHTML = `
-                <h1 style="color: #d63384;">Perfeito! ❤️</h1>
+                <h1 style="color: #d63384;">Perfeito, Suzana! ❤️</h1>
                 <p style="font-size: 18px; color: #555; margin-top: 15px;">Me avisa no WhatsApp para combinarmos o horário!</p>
             `;
         }
