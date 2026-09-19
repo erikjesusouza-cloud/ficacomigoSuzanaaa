@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pergunta Importante ❤️</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffe6e9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .botoes {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            align-items: center;
+            min-height: 50px;
+        }
+
+        button {
+            padding: 12px 28px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        #btnSim {
+            background-color: #28a745;
+            color: white;
+        }
+
+        #btnSim:hover {
+            transform: scale(1.1);
+            background-color: #218838;
+        }
+
+        #btnNao {
+            background-color: #dc3545;
+            color: white;
+            position: absolute; /* Permite mover o botão livremente pela tela */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="card">
+        <h1 id="titulo">Quer sair comigo? ❤️</h1>
+        <div class="botoes">
+            <button id="btnSim" onclick="proximaPergunta()">Sim</button>
+            <button id="btnNao" onmouseover="desviarBotao()" onclick="desviarBotao()">Não</button>
+        </div>
+    </div>
+
+    <script>
+        // Função para fazer o botão "Não" fugir
+        function desviarBotao() {
+            const btnNao = document.getElementById('btnNao');
+
+            // Calcula limites da tela para o botão não sair da visão do usuário
+            const larguraTela = window.innerWidth - btnNao.offsetWidth - 20;
+            const alturaTela = window.innerHeight - btnNao.offsetHeight - 20;
+
+            // Gera posições aleatórias
+            const novaEsquerda = Math.max(10, Math.floor(Math.random() * larguraTela));
+            const novoTopo = Math.max(10, Math.floor(Math.random() * alturaTela));
+
+            // Aplica as novas posições ao botão
+            btnNao.style.position = 'fixed';
+            btnNao.style.left = novaEsquerda + 'px';
+            btnNao.style.top = novoTopo + 'px';
+        }
+
+        // Função executada ao clicar em "Sim"
+        function proximaPergunta() {
+            const titulo = document.getElementById('titulo');
+            const btnNao = document.getElementById('btnNao');
+
+            // Esconde o botão "Não"
+            btnNao.style.display = 'none';
+
+            // Altera o texto para a próxima pergunta/fase do flerte
+            titulo.innerHTML = 'Sabia que você ia aceitar! 🎉<br><br>Que tal um café ou um jantar neste fim de semana? ☕🍽️';
+
+            // Altera a função do botão "Sim" para a resposta final
+            const btnSim = document.getElementById('btnSim');
+            btnSim.innerText = 'Combinado! 🔥';
+            btnSim.onclick = respostaFinal;
+        }
+
+        // Resposta final após a segunda pergunta
+        function respostaFinal() {
+            const card = document.getElementById('card');
+            card.innerHTML = `
+                <h1 style="color: #d63384;">Perfeito! ❤️</h1>
+                <p style="font-size: 18px; color: #555;">Me avisa no WhatsApp para combinarmos o horário!</p>
+            `;
+        }
+    </script>
+
+</body>
+</html>
