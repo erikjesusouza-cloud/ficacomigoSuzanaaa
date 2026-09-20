@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Para Suzana ❤️</title>
-    <!-- Biblioteca de Confetes -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -35,6 +33,117 @@
             position: relative;
         }
 
+        h1 {
+            color: #d63384;
+            font-size: 22px;
+            margin-bottom: 30px;
+            line-height: 1.3;
+        }
+
+        .botoes {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            min-height: 60px;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            display: inline-block;
+        }
+
+        #btnSim {
+            background-color: #28a745;
+            color: white;
+            transition: transform 0.2s;
+        }
+
+        #btnSim:active {
+            transform: scale(0.95);
+        }
+
+        #btnNao {
+            background-color: #dc3545;
+            color: white;
+            position: static;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="card">
+        <h1 id="titulo">Suzana, aceita sair comigo? ❤️</h1>
+        <div class="botoes">
+            <button id="btnSim" onclick="proximaPergunta()">Sim</button>
+            <button id="btnNao">Não</button>
+        </div>
+    </div>
+
+    <script>
+        const btnNao = document.getElementById('btnNao');
+
+        function fugirBotao(e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            // Garante posições aleatórias na tela ao tentar clicar
+            const larguraMax = window.innerWidth - btnNao.offsetWidth - 30;
+            const alturaMax = window.innerHeight - btnNao.offsetHeight - 30;
+
+            const novaEsquerda = Math.max(20, Math.floor(Math.random() * larguraMax));
+            const novoTopo = Math.max(20, Math.floor(Math.random() * alturaMax));
+
+            btnNao.style.position = 'fixed';
+            btnNao.style.left = novaEsquerda + 'px';
+            btnNao.style.top = novoTopo + 'px';
+
+            return false;
+        }
+
+        btnNao.addEventListener('touchstart', fugirBotao, { passive: false });
+        btnNao.addEventListener('touchend', fugirBotao, { passive: false });
+        btnNao.addEventListener('mousedown', fugirBotao);
+        btnNao.addEventListener('mouseover', fugirBotao);
+        btnNao.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            fugirBotao(e);
+        });
+
+        function proximaPergunta() {
+            btnNao.style.display = 'none';
+
+            const titulo = document.getElementById('titulo');
+            titulo.innerHTML = 'Sabia que você ia aceitar, Suzana! 🎉<br><br>Que tal um café ou um jantar neste fim de semana? ☕🍽️';
+
+            const btnSim = document.getElementById('btnSim');
+            btnSim.innerText = 'Combinado! 🔥';
+            btnSim.onclick = respostaFinal;
+        }
+
+        function respostaFinal() {
+            const card = document.getElementById('card');
+            card.innerHTML = `
+                <h1 style="color: #d63384;">Perfeito, Suzana! ❤️</h1>
+                <p style="font-size: 18px; color: #555; margin-top: 15px;">Me avisa no WhatsApp para combinarmos o horário!</p>
+            `;
+        }
+    </script>
+
+</body>
+</html>
         h1 {
             color: #d63384;
             font-size: 22px;
