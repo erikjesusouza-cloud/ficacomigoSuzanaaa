@@ -27,7 +27,7 @@
 
         .container {
             background-color: #ffffff;
-            padding: 35px 20px;
+            padding: 40px 25px;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             max-width: 380px;
@@ -38,7 +38,7 @@
         h1 {
             color: #d63384;
             font-size: 22px;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             line-height: 1.3;
         }
 
@@ -48,8 +48,7 @@
             align-items: center;
             gap: 15px;
             width: 100%;
-            min-height: 50px;
-            margin-top: 15px;
+            min-height: 60px;
         }
 
         button, .btn-whatsapp {
@@ -90,62 +89,15 @@
             transition: transform 0.2s;
         }
 
-        /* --- ESTILOS DO CARROSSEL DE FOTOS --- */
-        .carrossel {
-            position: relative;
-            width: 100%;
-            height: 220px;
-            margin: 15px 0;
-            overflow: hidden;
-            border-radius: 15px;
-            display: none; /* Inicia escondido */
+        .btn-whatsapp:active {
+            transform: scale(0.95);
         }
-
-        .carrossel img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 15px;
-            display: none;
-        }
-
-        .carrossel img.ativa {
-            display: block;
-        }
-
-        .btn-carrossel {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.4);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            cursor: pointer;
-            border-radius: 50%;
-            font-size: 16px;
-        }
-
-        .btn-prev { left: 10px; }
-        .btn-next { right: 10px; }
     </style>
 </head>
 <body>
 
     <div class="container" id="card">
         <h1 id="titulo">Suzana, aceita sair comigo? ❤️</h1>
-        
-        <!-- O ONDE FICA O CARROSSEL -->
-        <div class="carrossel" id="carrosselFotos">
-            <!-- COLOQUE OS LINKS DAS SUAS FOTOS AQUI ABAIXO -->
-            <img src="https://picsum.photos/400/300?random=1" class="ativa" alt="Foto 1">
-            <img src="https://picsum.photos/400/300?random=2" alt="Foto 2">
-            <img src="https://picsum.photos/400/300?random=3" alt="Foto 3">
-            
-            <button class="btn-carrossel btn-prev" onclick="mudarFoto(-1)">❮</button>
-            <button class="btn-carrossel btn-next" onclick="mudarFoto(1)">❯</button>
-        </div>
-
         <div class="botoes">
             <button id="btnSim" onclick="proximaPergunta()">Sim</button>
             <button id="btnNao">Não</button>
@@ -153,7 +105,9 @@
     </div>
 
     <script>
+        // Número configurado (55 + DDD 99 + Número)
         const meuNumeroWhatsApp = "5599991681041";
+
         const btnNao = document.getElementById('btnNao');
 
         function fugirBotao(e) {
@@ -185,6 +139,7 @@
             fugirBotao(e);
         });
 
+        // Solta confetes e corações na tela
         function soltarConfetes() {
             confetti({
                 particleCount: 120,
@@ -193,28 +148,15 @@
             });
         }
 
-        // LÓGICA DO CARROSSEL
-        let fotoAtual = 0;
-        function mudarFoto(direcao) {
-            const fotos = document.querySelectorAll('.carrossel img');
-            fotos[fotoAtual].classList.remove('ativa');
-            
-            fotoAtual = (fotoAtual + direcao + fotos.length) % fotos.length;
-            fotos[fotoAtual].classList.add('ativa');
-        }
-
         function proximaPergunta() {
             btnNao.style.display = 'none';
             soltarConfetes();
 
-            // EXIBE O CARROSSEL DE FOTOS
-            document.getElementById('carrosselFotos').style.display = 'block';
-
             const titulo = document.getElementById('titulo');
-            titulo.innerHTML = 'Sabia que você ia aceitar, Suzana! 🎉<br>Nossas lembranças:';
+            titulo.innerHTML = 'Sabia que você ia aceitar, Suzana! 🎉<br><br>Que tal um café ou um jantar neste fim de semana? ☕🍽️';
 
             const btnSim = document.getElementById('btnSim');
-            btnSim.innerText = 'Continuar 🔥';
+            btnSim.innerText = 'Combinado! 🔥';
             btnSim.onclick = respostaFinal;
         }
 
